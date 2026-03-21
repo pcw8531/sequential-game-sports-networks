@@ -2,7 +2,7 @@
 
 **Code and data repository for:** "Sequential Game Dynamics Produce Subgame Perfect Equilibria in Sports Networks Through Bounded Rationality"
 
-**Authors:** Chulwook Park, Brian D. Fath, Stefan Hochrainer-Stigler, Ulf Dieckmann
+**Authors:** Chulwook Park
 
 ## Overview
 
