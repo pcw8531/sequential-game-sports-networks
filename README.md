@@ -27,39 +27,11 @@ sequential-game-sports-networks/
 ├── .gitignore                         # Git ignore rules
 │
 ├── simulation/
-│   ├── 01_simultaneous_baseline.py    # γ=0 simultaneous recovery baseline
 │   └── 02_sequential_simulation.py    # Full sequential model with backward induction
 │
-├── figures/
-│   ├── fig1/                          # Schematic panels (A-D)
-│   │   └── fig1_penalty_nash.py       # Panel A: mixed strategy NE
-│   │
-│   ├── fig2/                          # Four equilibrium scenarios
-│   │   └── fig2_four_scenarios.py     # Panels A-D: δ, α, γ, β scenarios
-│   │
-│   ├── fig3/                          # Refinement landscapes
-│   │   ├── fig3_A_best_response.py    # Panel A: NE best-response diagram
-│   │   ├── fig3_B_refinement.py       # Panel B: refinement landscapes
-│   │   ├── fig3_C_SPE_response.py     # Panel C: SPE best-response
-│   │   └── fig3_D_ternary.py          # Panel D: ternary flow fields (D1-D5)
-│   │
-│   ├── fig4/                          # Sequential dominance and ordering
-│   │   ├── fig4_A_move_order.py       # Panel A: move-order gradient
-│   │   ├── fig4_B_CDF.py             # Panel B: stochastic dominance CDFs
-│   │   ├── fig4_C_gamma_curve.py      # Panel C: γ advantage curve
-│   │   ├── fig4_D_attractor.py        # Panel D: 4-scenario attractor ternaries
-│   │   ├── fig4_E_sim.py             # Panel E: centrality fate selection (simulation)
-│   │   └── fig4_E_plot.py            # Panel E: centrality fate selection (plot)
-│   │
-│   └── fig5/                          # Cross-domain validation
-│       ├── fig5_A_football.py         # Panel A: empirical football network
-│       ├── fig5_B_slope_violin.py     # Panel B: correlation slope + selection strength
-│       ├── fig5_C_domain_networks.py  # Panel C: domain-specific topologies
-│       └── fig5_D_violin_lollipop.py  # Panel D: R² comparison
-│
 ├── supplement/
-│   ├── SI_Movie_S1.mp4               # Animation: attractor evolution (Fig 3D)
-│   ├── SI_Movie_S2.mp4               # Animation: 4-scenario migration (Fig 4D)
+│   ├── SI_Movie_S1.gif               # Animation: attractor evolution (Fig 3D)
+│   ├── SI_Movie_S2.gif               # Animation: 4-scenario migration (Fig 4D)
 │   ├── gen_movie_s1.py               # Movie S1 generation code
 │   └── gen_movie_s2.py               # Movie S2 generation code
 │
@@ -95,11 +67,9 @@ Each figure panel has a standalone script in `figures/`:
 ```bash
 # Example: generate Figure 3 Panel D (ternary flow fields)
 python figures/fig3/fig3_D_ternary.py
-
-# Example: generate Figure 4 Panel E (centrality fate selection)
-python figures/fig4/fig4_E_sim.py     # run simulation first
-python figures/fig4/fig4_E_plot.py    # then generate plot
 ```
+
+With:
 
 ### Generate supplementary movies
 ```bash
