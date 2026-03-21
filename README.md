@@ -1,2 +1,164 @@
-# sequential-game-sports-networks
-Code and data for "Sequential Game Dynamics Produce Subgame Perfect Equilibria in Sports Networks Through Bounded Rationality"
+# Sequential Game Dynamics Produce Subgame Perfect Equilibria in Sports Networks
+
+**Code and data repository for:** "Sequential Game Dynamics Produce Subgame Perfect Equilibria in Sports Networks Through Bounded Rationality"
+
+**Authors:** Chulwook Park, Brian D. Fath, Stefan Hochrainer-Stigler, Ulf Dieckmann
+
+## Overview
+
+This repository provides simulation code, figure generation scripts, and supplementary materials for a study extending bounded rationality game theory from simultaneous to sequential structures on scale-free sports networks. The model demonstrates how subgame perfect equilibria (SPE) emerge through modified backward induction and constitute refined subsets of Nash equilibria (NE), establishing that SPE(Γ) ⊆ NE(Γ).
+
+**Key contributions:**
+- Centrality-based decision ordering σ(i) on Barabási–Albert networks produces SPE through bounded backward induction
+- Sequential play generates first-order stochastic dominance over the simultaneous baseline across all four equilibrium scenarios
+- The centrality–protection relationship (R² = 0.82) generalizes across banking, epidemiology, and sports domains
+- Setting γ = 0 exactly recovers the published simultaneous model, confirming theoretical continuity
+
+**Foundation:** This work extends [Park & Fath (2026), Physica A, 131258](https://github.com/pcw8531/nash-equilibria-sports-networks) from simultaneous to sequential game structures.
+
+## Repository Structure
+
+```
+sequential-game-sports-networks/
+│
+├── README.md                          # This file
+├── LICENSE                            # MIT License
+├── requirements.txt                   # Python dependencies
+├── .gitignore                         # Git ignore rules
+│
+├── simulation/
+│   ├── 01_simultaneous_baseline.py    # γ=0 simultaneous recovery baseline
+│   └── 02_sequential_simulation.py    # Full sequential model with backward induction
+│
+├── figures/
+│   ├── fig1/                          # Schematic panels (A-D)
+│   │   └── fig1_penalty_nash.py       # Panel A: mixed strategy NE
+│   │
+│   ├── fig2/                          # Four equilibrium scenarios
+│   │   └── fig2_four_scenarios.py     # Panels A-D: δ, α, γ, β scenarios
+│   │
+│   ├── fig3/                          # Refinement landscapes
+│   │   ├── fig3_A_best_response.py    # Panel A: NE best-response diagram
+│   │   ├── fig3_B_refinement.py       # Panel B: refinement landscapes
+│   │   ├── fig3_C_SPE_response.py     # Panel C: SPE best-response
+│   │   └── fig3_D_ternary.py          # Panel D: ternary flow fields (D1-D5)
+│   │
+│   ├── fig4/                          # Sequential dominance and ordering
+│   │   ├── fig4_A_move_order.py       # Panel A: move-order gradient
+│   │   ├── fig4_B_CDF.py             # Panel B: stochastic dominance CDFs
+│   │   ├── fig4_C_gamma_curve.py      # Panel C: γ advantage curve
+│   │   ├── fig4_D_attractor.py        # Panel D: 4-scenario attractor ternaries
+│   │   ├── fig4_E_sim.py             # Panel E: centrality fate selection (simulation)
+│   │   └── fig4_E_plot.py            # Panel E: centrality fate selection (plot)
+│   │
+│   └── fig5/                          # Cross-domain validation
+│       ├── fig5_A_football.py         # Panel A: empirical football network
+│       ├── fig5_B_slope_violin.py     # Panel B: correlation slope + selection strength
+│       ├── fig5_C_domain_networks.py  # Panel C: domain-specific topologies
+│       └── fig5_D_violin_lollipop.py  # Panel D: R² comparison
+│
+├── supplement/
+│   ├── SI_Movie_S1.mp4               # Animation: attractor evolution (Fig 3D)
+│   ├── SI_Movie_S2.mp4               # Animation: 4-scenario migration (Fig 4D)
+│   ├── gen_movie_s1.py               # Movie S1 generation code
+│   └── gen_movie_s2.py               # Movie S2 generation code
+│
+└── data/
+    └── README.md                      # Data provenance and source documentation
+```
+
+## Installation
+
+```bash
+git clone https://github.com/pcw8531/sequential-game-sports-networks.git
+cd sequential-game-sports-networks
+pip install -r requirements.txt
+```
+
+## Quick Start
+
+### Run the sequential simulation
+```python
+from simulation.sequential_simulation import SequentialGameSimulation
+
+# Initialize with default parameters (N=100, m=5, γ=0.3)
+sim = SequentialGameSimulation(N=100, m=5, gamma=0.3)
+sim.run(T=100, replications=50)
+
+# Access results
+print(f"SPE protection mean: {sim.results['fp_mean']:.4f}")
+print(f"Failure rate: {sim.results['failure_rate']:.4f}")
+```
+
+### Reproduce figures
+Each figure panel has a standalone script in `figures/`:
+```bash
+# Example: generate Figure 3 Panel D (ternary flow fields)
+python figures/fig3/fig3_D_ternary.py
+
+# Example: generate Figure 4 Panel E (centrality fate selection)
+python figures/fig4/fig4_E_sim.py     # run simulation first
+python figures/fig4/fig4_E_plot.py    # then generate plot
+```
+
+### Generate supplementary movies
+```bash
+python supplement/gen_movie_s1.py     # SI Movie S1: attractor evolution
+python supplement/gen_movie_s2.py     # SI Movie S2: 4-scenario migration
+```
+
+## Model Parameters
+
+| Parameter | Symbol | Default | Description |
+|-----------|--------|---------|-------------|
+| Network size | N | 100 | Agents in scale-free network |
+| Connectivity | m | 5 | Edges per new node (BA model) |
+| Max protection | p_p,max | 0.1–1.0 | Protection capacity ceiling |
+| Protection scaling | c_p,1/2 | 0.1–1.0 | Half-saturation constant |
+| Imitation rate | p_r | 0.01–0.99 | Social learning intensity |
+| Exploration rate | p_e | 0.01–0.99 | Strategic innovation rate |
+| Rationality | β | 0.1–50.0 | Backward induction precision |
+| Observation weight | γ | 0.0–1.0 | Sequential sensitivity (γ=0 → simultaneous) |
+
+## Four Equilibrium Scenarios
+
+| Scenario | Color | p_p,max | c_p,1/2 | Outcome |
+|----------|-------|---------|---------|---------|
+| α Coexistence | #7B2D8E | 1.0 | 1.0 | Mixed protection-failure equilibrium |
+| β System failure | #C0392B | 0.1 | 1.0 | Network-wide cascading failure |
+| γ Partial coexistence | #D4780A | 0.1 | 0.1 | Hub-vulnerable partial recovery |
+| δ Full protection | #1A6B3C | 1.0 | 0.1 | Complete network protection |
+
+## Supplementary Movies
+
+- **SI Movie S1:** Continuous attractor evolution across γ = 0.01 → 0.9, showing flow field redirection, network failure propagation, and SPE = NE → SPE ⊂ NE transition (animated version of Figure 3D)
+- **SI Movie S2:** Simultaneous four-scenario (δ, α, γ, β) attractor migration from γ = 0 to 1.0, with scenario-specific trajectories, embedded networks, and dynamic flow fields (animated version of Figure 4D)
+
+## Related Repository
+
+- **Simultaneous model (Physica A):** [nash-equilibria-sports-networks](https://github.com/pcw8531/nash-equilibria-sports-networks) — the foundation from which this sequential extension is built. Setting γ = 0 in this repository exactly reproduces the simultaneous model results.
+
+## Citation
+
+If you use this code, please cite:
+
+```
+Park, C. (2026). Sequential game dynamics produce subgame perfect equilibria in sports
+networks through bounded rationality. [Manuscript submitted for publication].
+```
+
+And the foundation paper:
+
+```
+Park, C., & Fath, B. D. (2026). Bounded rationality produces Nash equilibria
+in sports networks: Protection, learning, and strategic adaptation.
+Physica A, 131258.
+```
+
+## License
+
+MIT License — see [LICENSE](LICENSE) for details.
+
+## Contact
+
+- **Chulwook Park** — Seoul National University (BK21 Four) / OIST — pcw8531@snu.ac.kr
