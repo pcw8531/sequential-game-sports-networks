@@ -101,7 +101,7 @@ python supplement/gen_movie_s2.py     # SI Movie S2: 4-scenario migration
 
 ## Supplementary Movies
 
-- **SI Movie S1:** Continuous attractor evolution across γ = 0.01 → 0.9, showing flow field redirection, network failure propagation, and SPE = NE → SPE ⊂ NE transition (animated version of Figure 3D)
+- **SI Movie S1:** Continuous attractor evolution across p_l = 0.1 → 0.5, showing flow field redirection, network failure propagation from hub-protected to hub-vulnerable topology under increasing contagion risk (animated version of Figure 3A)
 - **SI Movie S2:** Simultaneous four-scenario (δ, α, γ, β) attractor migration from γ = 0 to 1.0, with scenario-specific trajectories, embedded networks, and dynamic flow fields (animated version of Figure 4D)
 
 ## Related Repository
