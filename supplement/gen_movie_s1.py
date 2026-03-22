@@ -1,8 +1,9 @@
 """
-SI Movie S1: Equilibrium Attractor Evolution (Fig 3D style)
-============================================================
+SI Movie S1: Failure Propagation Attractor Evolution (Fig 3A style)
+===================================================================
+p_l sweep from 0.1 to 0.5 at fixed gamma=0.3.
 No trail line. Large attractor circle. Vivid streamplot arrows.
-Matches manuscript Figure 3 Panel D visual style.
+Matches manuscript Figure 3 Panel A visual style.
 Output: SI_Movie_S1.gif (pillow writer, Windows compatible)
 """
 
@@ -31,17 +32,20 @@ sorted_asc = np.argsort(deg_arr)
 sorted_desc = np.argsort(-deg_arr)
 
 ###############################################################################
-# Keyframes (matching Fig 3D)
+# Keyframes (matching Fig 3A p_l sweep)
 ###############################################################################
 ATTRACTOR_KEYS = {
-    0.01: (0.88, 0.06, 0.06), 0.1: (0.68, 0.22, 0.10),
-    0.3:  (0.38, 0.38, 0.24), 0.68:(0.15, 0.72, 0.13), 0.9: (0.04, 0.90, 0.06),
+    0.1: (0.85, 0.08, 0.07),   # A1: protection-dominated
+    0.2: (0.62, 0.25, 0.13),   # A2: mostly protected
+    0.3: (0.38, 0.38, 0.24),   # A3: balanced
+    0.4: (0.18, 0.60, 0.22),   # A4: failure-leaning
+    0.5: (0.06, 0.82, 0.12),   # A5: failure-dominated
 }
 COLORS_KEYS = {
-    0.01: '#2874A6', 0.1: '#229954', 0.3: '#D68910',
-    0.68: '#E67E22', 0.9: '#C0392B',
+    0.1: '#2874A6', 0.2: '#229954', 0.3: '#D68910',
+    0.4: '#E67E22', 0.5: '#C0392B',
 }
-PANEL_LABELS = {0.01:'D1', 0.1:'D2', 0.3:'D3', 0.68:'D4', 0.9:'D5'}
+PANEL_LABELS = {0.1:'A1', 0.2:'A2', 0.3:'A3', 0.4:'A4', 0.5:'A5'}
 
 for k in ATTRACTOR_KEYS:
     p,f,o = ATTRACTOR_KEYS[k]; s=p+f+o; ATTRACTOR_KEYS[k]=(p/s,f/s,o/s)
@@ -65,34 +69,34 @@ def compute_flow(h, l, n, ht, lt, nt, steps=5):
     return h, l, n
 
 N_FRAMES = 60
-gamma_frames = np.linspace(0.01, 0.9, N_FRAMES)
+pl_frames = np.linspace(0.1, 0.5, N_FRAMES)
 
-def interp_attractor(gamma):
+def interp_attractor(pl_val):
     keys=sorted(ATTRACTOR_KEYS.keys())
-    if gamma<=keys[0]: return ATTRACTOR_KEYS[keys[0]]
-    if gamma>=keys[-1]: return ATTRACTOR_KEYS[keys[-1]]
+    if pl_val<=keys[0]: return ATTRACTOR_KEYS[keys[0]]
+    if pl_val>=keys[-1]: return ATTRACTOR_KEYS[keys[-1]]
     for i in range(len(keys)-1):
-        if keys[i]<=gamma<=keys[i+1]:
-            t=(gamma-keys[i])/(keys[i+1]-keys[i])
+        if keys[i]<=pl_val<=keys[i+1]:
+            t=(pl_val-keys[i])/(keys[i+1]-keys[i])
             a0=ATTRACTOR_KEYS[keys[i]]; a1=ATTRACTOR_KEYS[keys[i+1]]
             p=a0[0]+t*(a1[0]-a0[0]); f=a0[1]+t*(a1[1]-a0[1]); o=a0[2]+t*(a1[2]-a0[2])
             s=p+f+o; return (p/s,f/s,o/s)
 
-def interp_color(gamma):
+def interp_color(pl_val):
     keys=sorted(COLORS_KEYS.keys())
-    if gamma<=keys[0]: return COLORS_KEYS[keys[0]]
-    if gamma>=keys[-1]: return COLORS_KEYS[keys[-1]]
+    if pl_val<=keys[0]: return COLORS_KEYS[keys[0]]
+    if pl_val>=keys[-1]: return COLORS_KEYS[keys[-1]]
     for i in range(len(keys)-1):
-        if keys[i]<=gamma<=keys[i+1]:
-            t=(gamma-keys[i])/(keys[i+1]-keys[i])
+        if keys[i]<=pl_val<=keys[i+1]:
+            t=(pl_val-keys[i])/(keys[i+1]-keys[i])
             c0=matplotlib.colors.to_rgb(COLORS_KEYS[keys[i]])
             c1=matplotlib.colors.to_rgb(COLORS_KEYS[keys[i+1]])
             return tuple(c0[j]+t*(c1[j]-c0[j]) for j in range(3))
 
-def get_panel_label(gamma):
+def get_panel_label(pl_val):
     keys=sorted(PANEL_LABELS.keys())
-    closest = min(keys, key=lambda k: abs(k-gamma))
-    if abs(closest-gamma) < 0.08:
+    closest = min(keys, key=lambda k: abs(k-pl_val))
+    if abs(closest-pl_val) < 0.03:
         return PANEL_LABELS[closest]
     return None
 
@@ -123,11 +127,11 @@ def draw_gridlines(ax):
 def draw_labels(ax):
     lfs=14
     mid_bot=(v_left+v_right)/2
-    ax.text(mid_bot[0],mid_bot[1]-0.05,'failure - Loss ($f_p c$)',fontsize=lfs,ha='center',va='top',color='#8B0000',fontweight='bold')
+    ax.text(mid_bot[0],mid_bot[1]-0.05,'failure cascade ($f_p c$)',fontsize=lfs,ha='center',va='top',color='#8B0000',fontweight='bold')
     mid_left=(v_left+v_top)/2; off=0.16
-    ax.text(mid_left[0]-off*math.cos(math.radians(30)),mid_left[1]-off*math.sin(math.radians(30)),'functional capacity ($q_i$)',fontsize=lfs,ha='center',va='center',color='#2874A6',fontweight='bold',rotation=60)
+    ax.text(mid_left[0]-off*math.cos(math.radians(30)),mid_left[1]-off*math.sin(math.radians(30)),'protection level ($f_p$)',fontsize=lfs,ha='center',va='center',color='#2874A6',fontweight='bold',rotation=60)
     mid_right=(v_right+v_top)/2
-    ax.text(mid_right[0]+off*math.cos(math.radians(30)),mid_right[1]-off*math.sin(math.radians(30)),'sequential observation ($O_i$)',fontsize=lfs,ha='center',va='center',color='#555555',fontweight='bold',rotation=-60)
+    ax.text(mid_right[0]+off*math.cos(math.radians(30)),mid_right[1]-off*math.sin(math.radians(30)),'risk exposure ($p_l$)',fontsize=lfs,ha='center',va='center',color='#555555',fontweight='bold',rotation=-60)
     tfs=13; tick_off=0.055
     for val in [0.0,1.0]:
         tx=v_left[0]+val*(v_right[0]-v_left[0])
@@ -139,13 +143,22 @@ def draw_labels(ax):
         pt=v_right+val*(v_top-v_right); dx=tick_off*math.cos(math.radians(30)); dy=-tick_off*math.sin(math.radians(30))
         ax.text(pt[0]+dx,pt[1]+dy,f'{val:.1f}',fontsize=tfs,ha='left',va='center',color='#555')
 
-def draw_network(inset_ax, gamma_val):
+def draw_network(inset_ax, pl_val):
     inset_ax.clear(); inset_ax.axis('off'); inset_ax.patch.set_alpha(0.0)
     inset_ax.set_xlim(-1.3,1.3); inset_ax.set_ylim(-1.3,1.3)
-    fail_frac=0.05+0.80*gamma_val; n_fail=int(round(fail_frac*N_nodes))
-    if gamma_val<0.3: fail_nodes=set(sorted_asc[:n_fail])
-    elif gamma_val<0.6: np.random.seed(42); fail_nodes=set(np.random.choice(N_nodes,n_fail,replace=False))
-    else: fail_nodes=set(sorted_desc[:n_fail])
+
+    fail_frac = 0.05 + 1.50 * pl_val**1.2
+    fail_frac = min(fail_frac, 0.92)
+    n_fail = int(round(fail_frac * N_nodes))
+
+    if pl_val <= 0.2:
+        fail_nodes = set(sorted_asc[:n_fail])
+    elif pl_val <= 0.3:
+        np.random.seed(42)
+        fail_nodes = set(np.random.choice(N_nodes, n_fail, replace=False))
+    else:
+        fail_nodes = set(sorted_desc[:n_fail])
+
     node_colors=[]
     for i in range(N_nodes):
         if i in fail_nodes: node_colors.append('#C0392B')
@@ -177,11 +190,11 @@ def animate(fi):
     draw_gridlines(ax)
     draw_labels(ax)
 
-    gamma=gamma_frames[fi]
-    ht,lt,nt=interp_attractor(gamma)
-    sc=interp_color(gamma)
+    pl_val = pl_frames[fi]
+    ht,lt,nt = interp_attractor(pl_val)
+    sc = interp_color(pl_val)
 
-    # Streamplot (vivid, matching Fig 3D gray arrows)
+    # Streamplot (vivid, matching Fig 3A gray arrows)
     U=np.zeros((ny_grid,nx_grid)); V=np.zeros((ny_grid,nx_grid))
     for i,y2d in enumerate(y2d_vals):
         for j,x2d in enumerate(x2d_vals):
@@ -209,22 +222,27 @@ def animate(fi):
     ax.plot(ax_att,ay_att,'o',color=sc,markersize=32,alpha=0.15,zorder=14)
     ax.plot(ax_att,ay_att,'o',color=sc,markersize=16,markeredgecolor='black',markeredgewidth=2.0,zorder=15)
 
-    # Panel label + gamma
-    pl = get_panel_label(gamma)
-    label_text = f'{pl}  ' if pl else ''
+    # Panel label + p_l value
+    pl_label = get_panel_label(pl_val)
+    label_text = f'{pl_label}  ' if pl_label else ''
     ax.text(0.35,0.95,label_text,transform=ax.transAxes,fontsize=18,va='top',ha='left',color='black')
-    ax.text(0.42,0.95,r'$\gamma = '+f'{gamma:.2f}'+r'$',transform=ax.transAxes,fontsize=17,color=sc,ha='left',va='top')
+    ax.text(0.42,0.95,r'$p_l = '+f'{pl_val:.2f}'+r'$',transform=ax.transAxes,fontsize=17,color=sc,ha='left',va='top')
 
     # Equilibrium annotations
-    if gamma<0.05:
-        ax.text(ax_att+0.08,ay_att+0.02,r'SPE = NE'+'\n(no refinement)',fontsize=13,color=sc,va='center')
-    elif gamma>0.85:
-        ax.text(ax_att-0.08,ay_att+0.02,r'SPE $\subset$ NE'+'\n(max refinement)',fontsize=13,color=sc,ha='right',va='center')
+    if pl_val < 0.12:
+        ax.text(ax_att+0.08,ay_att+0.02,'minimal contagion\n(hub-protected)',fontsize=13,color=sc,va='center')
+    elif pl_val > 0.48:
+        ax.text(ax_att-0.08,ay_att+0.02,'cascading failure\n(hub-vulnerable)',fontsize=13,color=sc,ha='right',va='center')
+
+    # Progress bar
+    progress = fi / (N_FRAMES - 1)
+    ax.plot([0.0, 1.0], [-0.14, -0.14], '-', color='#DDD', linewidth=4, zorder=1)
+    ax.plot([0.0, progress], [-0.14, -0.14], '-', color=sc, linewidth=4, zorder=2)
 
     # Network
-    draw_network(inset_ax,gamma)
+    draw_network(inset_ax, pl_val)
 
-print(f"Generating SI Movie S1 ({N_FRAMES} frames)...")
+print(f"Generating SI Movie S1 ({N_FRAMES} frames, p_l sweep 0.1-0.5)...")
 ani = animation.FuncAnimation(fig, animate, frames=N_FRAMES, interval=500, blit=False)
 ani.save('SI_Movie_S1.gif', writer='pillow', fps=4, dpi=100)
 plt.close(fig)
@@ -236,8 +254,3 @@ try:
     from IPython.display import Image, display
     display(Image(filename='SI_Movie_S1.gif'))
 except: pass
-
-# === MP4 for PNAS submission ===
-ani.save('SI_Movie_S1.mp4', writer='ffmpeg', fps=4, dpi=100, 
-         bitrate=1800, extra_args=['-vcodec', 'libx264', '-pix_fmt', 'yuv420p'])
-print(f"Saved: SI_Movie_S1.mp4 ({os.path.getsize('SI_Movie_S1.mp4')/1024/1024:.2f} MB)")
