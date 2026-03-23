@@ -137,7 +137,7 @@ def draw_axis_labels(ax):
     tick_off = 0.055
 
     mid_bot=(v_left+v_right)/2
-    ax.text(mid_bot[0],mid_bot[1]-0.07,'Failure cascade ($f_p c$)',
+    ax.text(mid_bot[0],mid_bot[1]-0.07,'Failure cascade',
             fontsize=lfs,ha='center',va='top',color='#8B0000',fontweight='bold')
 
     mid_left=0.58*v_left+0.42*v_top
