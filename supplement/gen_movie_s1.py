@@ -127,7 +127,7 @@ def draw_gridlines(ax):
 def draw_labels(ax):
     lfs=14
     mid_bot=(v_left+v_right)/2
-    ax.text(mid_bot[0],mid_bot[1]-0.05,'failure cascade ($f_p c$)',fontsize=lfs,ha='center',va='top',color='#8B0000',fontweight='bold')
+    ax.text(mid_bot[0],mid_bot[1]-0.05,'failure cascade',fontsize=lfs,ha='center',va='top',color='#8B0000',fontweight='bold')
     mid_left=(v_left+v_top)/2; off=0.16
     ax.text(mid_left[0]-off*math.cos(math.radians(30)),mid_left[1]-off*math.sin(math.radians(30)),'protection level ($f_p$)',fontsize=lfs,ha='center',va='center',color='#2874A6',fontweight='bold',rotation=60)
     mid_right=(v_right+v_top)/2
