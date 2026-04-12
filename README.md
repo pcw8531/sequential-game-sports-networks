@@ -2,6 +2,8 @@
 
 **Code and data repository for:** "Sequential Game Dynamics Produce Subgame Perfect Equilibria in Sports Networks Through Bounded Rationality"
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19528357.svg)](https://doi.org/10.5281/zenodo.19528357)
+
 **Authors:** Chulwook Park
 
 ## Overview
@@ -47,29 +49,9 @@ cd sequential-game-sports-networks
 pip install -r requirements.txt
 ```
 
-## Quick Start
+## Usage
 
-### Run the sequential simulation
-```python
-from simulation.sequential_simulation import SequentialGameSimulation
-
-# Initialize with default parameters (N=100, m=5, γ=0.3)
-sim = SequentialGameSimulation(N=100, m=5, gamma=0.3)
-sim.run(T=100, replications=50)
-
-# Access results
-print(f"SPE protection mean: {sim.results['fp_mean']:.4f}")
-print(f"Failure rate: {sim.results['failure_rate']:.4f}")
-```
-
-### Reproduce figures
-Each figure panel has a standalone script in `figures/`:
-```bash
-# Example: generate Figure 3 Panel D (ternary flow fields)
-python figures/fig3/fig3_D_ternary.py
-```
-
-With:
+The core simulation model is implemented in `simulation/02_sequential_simulation.py`. Figure generation scripts are maintained locally and available upon request. The core simulation code in `simulation/` reproduces all computational results.
 
 ### Generate supplementary movies
 ```bash
@@ -82,7 +64,7 @@ python supplement/gen_movie_s2.py     # SI Movie S2: 4-scenario migration
 | Parameter | Symbol | Default | Description |
 |-----------|--------|---------|-------------|
 | Network size | N | 100 | Agents in scale-free network |
-| Connectivity | m | 5 | Edges per new node (BA model) |
+| Connectivity | m | 10 | Edges per new node (BA model) |
 | Max protection | p_p,max | 0.1–1.0 | Protection capacity ceiling |
 | Protection scaling | c_p,1/2 | 0.1–1.0 | Half-saturation constant |
 | Imitation rate | p_r | 0.01–0.99 | Social learning intensity |
@@ -96,12 +78,12 @@ python supplement/gen_movie_s2.py     # SI Movie S2: 4-scenario migration
 |----------|-------|---------|---------|---------|
 | α Coexistence | #7B2D8E | 1.0 | 1.0 | Mixed protection-failure equilibrium |
 | β System failure | #C0392B | 0.1 | 1.0 | Network-wide cascading failure |
-| γ Partial coexistence | #D4780A | 0.1 | 0.1 | Hub-vulnerable partial recovery |
+| γ Partial coexistence | #D4780A | 0.1 | 0.1 | Limited partial recovery |
 | δ Full protection | #1A6B3C | 1.0 | 0.1 | Complete network protection |
 
 ## Supplementary Movies
 
-- **SI Movie S1:** Continuous attractor evolution across p_l = 0.1 → 0.5, showing flow field redirection, network failure propagation from hub-protected to hub-vulnerable topology under increasing contagion risk (animated version of Figure 3A)
+- **SI Movie S1:** Continuous attractor evolution across p_l = 0.1 → 0.5, showing flow field redirection, network failure propagation from hub-protected to failure-dominated topology under increasing contagion risk (animated version of Figure 3A)
 - **SI Movie S2:** Simultaneous four-scenario (δ, α, γ, β) attractor migration from γ = 0 to 1.0, with scenario-specific trajectories, embedded networks, and dynamic flow fields (animated version of Figure 4D)
 
 ## Related Repository
