@@ -2,7 +2,7 @@
 
 **Code and data repository for:** "Sequential Game Dynamics Produce Subgame Perfect Equilibria in Sports Networks Through Bounded Rationality"
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19528357.svg)](https://doi.org/10.5281/zenodo.19528357)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19528356.svg)](https://doi.org/10.5281/zenodo.19528356)
 
 **Authors:** Chulwook Park
 
