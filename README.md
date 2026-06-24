@@ -8,13 +8,14 @@
 
 ## Overview
 
-This repository provides simulation code, figure generation scripts, and supplementary materials for a study extending bounded rationality game theory from simultaneous to sequential structures on scale-free sports networks. The model demonstrates how subgame perfect equilibria (SPE) emerge through modified backward induction and constitute refined subsets of Nash equilibria (NE), establishing that SPE(Γ) ⊆ NE(Γ).
+This repository provides simulation code, figure generation scripts, and supplementary materials for a study extending bounded rationality game theory from simultaneous to sequential structures on scale-free sports networks. The model shows how modified backward induction yields ε-subgame perfect equilibria that converge to exact subgame perfect equilibria (SPE) as the rationality parameter increases, and these constitute refined subsets of Nash equilibria (NE), with SPE(Γ) ⊆ NE(Γ).
 
 **Key contributions:**
-- Centrality-based decision ordering σ(i) on Barabási–Albert networks produces SPE through bounded backward induction
-- Sequential play generates first-order stochastic dominance over the simultaneous baseline across all four equilibrium scenarios
-- The centrality–protection relationship (R² = 0.82) generalizes across banking, epidemiology, and sports domains
+- Centrality-based decision ordering σ(i) on Barabási–Albert networks yields ε-SPE that converge to exact SPE through bounded backward induction
+- Sequential play shows first-order stochastic dominance over the simultaneous baseline in all four equilibrium scenarios examined
+- The centrality–protection relationship (R² = 0.82) appears across the banking, epidemiology, and sports domains examined
 - Setting γ = 0 exactly recovers the published simultaneous model, confirming theoretical continuity
+- Robustness to imperfect observation: the stochastic dominance and the survival threshold persist under observation noise, while the graded centrality–investment correlation is sensitive to it (SI Fig. S2)
 
 **Foundation:** This work extends [Park & Fath (2026), Physica A, 131258](https://github.com/pcw8531/nash-equilibria-sports-networks) from simultaneous to sequential game structures.
 
@@ -29,7 +30,8 @@ sequential-game-sports-networks/
 ├── .gitignore                         # Git ignore rules
 │
 ├── simulation/
-│   └── 02_sequential_simulation.py    # Full sequential model with backward induction
+│   ├── 02_sequential_simulation.py    # Full sequential model with backward induction
+│   └── figS2_noise_robustness.py      # Observation-noise robustness analysis (SI Fig. S2)
 │
 ├── supplement/
 │   ├── SI_Movie_S1.gif               # Animation: attractor evolution (Fig 3D)
@@ -52,6 +54,12 @@ pip install -r requirements.txt
 ## Usage
 
 The core simulation model is implemented in `simulation/02_sequential_simulation.py`. Figure generation scripts are maintained locally and available upon request. The core simulation code in `simulation/` reproduces all computational results.
+
+### Robustness to observation noise
+`simulation/figS2_noise_robustness.py` is a single two-cell script. The first cell runs the noise sweep on the published Figure 4 engines and writes `figS2_noise_data.pkl`, and the second cell reads that file and draws the stochastic-dominance panel reported as SI Fig. S2. The survival threshold and the centrality–investment R² under noise are printed to the console and reported in SI Text S7.5.
+```bash
+python simulation/figS2_noise_robustness.py   # SI Fig. S2: robustness to observation noise
+```
 
 ### Generate supplementary movies
 ```bash
@@ -110,7 +118,3 @@ Physica A, 131258.
 ## License
 
 MIT License — see [LICENSE](LICENSE) for details.
-
-## Contact
-
-- **Chulwook Park** — Seoul National University (BK21 Four) / OIST — pcw8531@snu.ac.kr
