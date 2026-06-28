@@ -8,12 +8,12 @@
 
 ## Overview
 
-This repository provides simulation code, figure generation scripts, and supplementary materials for a study extending bounded rationality game theory from simultaneous to sequential structures on scale-free sports networks. The model shows how modified backward induction yields ε-subgame perfect equilibria that converge to exact subgame perfect equilibria (SPE) as the rationality parameter increases, and these constitute refined subsets of Nash equilibria (NE), with SPE(Γ) ⊆ NE(Γ).
+This repository provides the core simulation code, the noise-robustness and movie-generation scripts, and supplementary materials for a study extending bounded rationality game theory from simultaneous to sequential structures on scale-free sports networks. The model shows how modified backward induction yields ε-subgame perfect equilibria that converge to exact subgame perfect equilibria (SPE) as the rationality parameter increases, and these constitute refined subsets of Nash equilibria (NE), with SPE(Γ) ⊆ NE(Γ).
 
 **Key contributions:**
 - Centrality-based decision ordering σ(i) on Barabási–Albert networks yields ε-SPE that converge to exact SPE through bounded backward induction
 - Sequential play shows first-order stochastic dominance over the simultaneous baseline in all four equilibrium scenarios examined
-- The centrality–protection relationship (R² = 0.82) appears across the banking, epidemiology, and sports domains examined
+- The centrality–protection relationship (R² = 0.817) appears across the banking, epidemiology, and sports domains examined
 - Setting γ = 0 exactly recovers the published simultaneous model, confirming theoretical continuity
 - Robustness to imperfect observation: the stochastic dominance and the survival threshold persist under observation noise, while the graded centrality–investment correlation is sensitive to it (SI Fig. S2)
 
@@ -72,7 +72,7 @@ python supplement/gen_movie_s2.py     # SI Movie S2: 4-scenario migration
 | Parameter | Symbol | Default | Description |
 |-----------|--------|---------|-------------|
 | Network size | N | 100 | Agents in scale-free network |
-| Connectivity | m | 10 | Edges per new node (BA model) |
+| Connectivity | m | 5 | Edges per new node (BA model) |
 | Max protection | p_p,max | 0.1–1.0 | Protection capacity ceiling |
 | Protection scaling | c_p,1/2 | 0.1–1.0 | Half-saturation constant |
 | Imitation rate | p_r | 0.01–0.99 | Social learning intensity |
